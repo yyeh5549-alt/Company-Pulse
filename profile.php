@@ -27,15 +27,16 @@ if (isset($_POST['text'])) {
 
 if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != "") {
     $saveto = "uploads/avatars/$user.jpg";
-    move_uploaded_file($_FILES['image']['tmp_name'], $saveto);
-    $typeok = TRUE;
+    $typeok = move_uploaded_file($_FILES['image']['tmp_name'], $saveto);
 
-    switch($_FILES['image']['type']) {
-        case "image/gif":   $src = imagecreatefromgif($saveto); break;
-        case "image/jpeg":
-        case "image/pjpeg": $src = imagecreatefromjpeg($saveto); break;
-        case "image/png":   $src = imagecreatefrompng($saveto); break;
-        default:            $typeok = FALSE; break;
+    if ($typeok) {
+        switch($_FILES['image']['type']) {
+            case "image/gif":   $src = imagecreatefromgif($saveto); break;
+            case "image/jpeg":
+            case "image/pjpeg": $src = imagecreatefromjpeg($saveto); break;
+            case "image/png":   $src = imagecreatefrompng($saveto); break;
+            default:            $typeok = FALSE; break;
+        }
     }
 
     if ($typeok) {
@@ -57,8 +58,6 @@ if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != "") {
         $tmp = imagecreatetruecolor($tw, $th);
         imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tw, $th, $w, $h);
         imagejpeg($tmp, $saveto);
-        imagedestroy($tmp);
-        imagedestroy($src);
     }
 }
 ?>
