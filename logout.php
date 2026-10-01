@@ -1,12 +1,12 @@
 <?php
+session_start();
+require_once 'includes/functions.php';
+
+$wasLoggedIn = isset($_SESSION['user']);
+if ($wasLoggedIn) destroySession();
+
 require_once 'includes/header.php';
 
-if (isset($_SESSION['user'])) {
-    destroySession();
-    echo "<section class='card'><h2>Logged Out</h2>You have been logged out. Please <a href='index.php'>click here</a> to refresh.</section>";
-} else {
-    echo "<section class='card'>You cannot log out because you are not logged in.</section>";
-}
-
-require_once 'includes/footer.php';
+setFlash($wasLoggedIn ? 'You have been logged out. See you soon!' : 'You were not logged in.', $wasLoggedIn ? 'success' : 'info');
+redirect('index.php');
 ?>

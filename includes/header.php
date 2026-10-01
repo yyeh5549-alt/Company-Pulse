@@ -1,5 +1,7 @@
 <?php
-session_start();
+ob_start();
+
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once 'functions.php';
 
@@ -11,37 +13,53 @@ if (isset($_SESSION['user'])) {
     $loggedin = true;
     $userstr  = "Logged in as: $user";
 }
+
+$currentPage = basename($_SERVER['SCRIPT_NAME']);
+
+if ($loggedin) {
+    $navItems = [
+        'index.php'    => 'Home',
+        'members.php'  => 'Members',
+        'friends.php'  => 'Friends',
+        'messages.php' => 'Messages',
+        'profile.php'  => 'Edit Profile',
+        'logout.php'   => 'Log Out',
+    ];
+} else {
+    $navItems = [
+        'index.php'  => 'Home',
+        'signup.php' => 'Sign Up',
+        'login.php'  => 'Log In',
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Pulse</title>
+    <title><?php echo isset($pageTitle) ? $pageTitle . ' | ' : ''; ?>Company Pulse</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/main.js" defer></script>
 </head>
 <body>
 
   <header class="app-header">
-    <nav class="navbar">
-      <div class="brand-logo">Company Pulse</div>
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.php" class="brand-logo">Company Pulse</a>
 
       <ul class="nav-list">
-        <?php if ($loggedin): ?>
-            <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="members.php" class="nav-link">Members</a></li>
-            <li class="nav-item"><a href="friends.php" class="nav-link">Friends</a></li>
-            <li class="nav-item"><a href="messages.php" class="nav-link">Messages</a></li>
-            <li class="nav-item"><a href="profile.php" class="nav-link">Edit Profile</a></li>
-            <li class="nav-item"><a href="logout.php" class="nav-link">Log Out</a></li>
-        <?php else: ?>
-            <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="signup.php" class="nav-link">Sign Up</a></li>
-            <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
-        <?php endif; ?>
+        <?php foreach ($navItems as $href => $label): ?>
+            <li class="nav-item"><a href="<?php echo $href; ?>" class="nav-link<?php echo $currentPage === $href ? ' active' : ''; ?>"<?php echo $currentPage === $href ? ' aria-current="page"' : ''; ?>><?php echo $label; ?></a></li>
+        <?php endforeach; ?>
       </ul>
     </nav>
+    <p class="user-status"><?php echo $userstr; ?></p>
   </header>
 
   <main class="main-container">
+<?php if (!empty($_SESSION['flash'])):
+    $flash = $_SESSION['flash'];
+    unset($_SESSION['flash']); ?>
+    <div class="flash flash-<?php echo $flash['type']; ?>" role="status"><?php echo $flash['message']; ?></div>
+<?php endif; ?>
