@@ -7,7 +7,8 @@
 
 ### Before the session (facilitator checklist)
 - [ ] Run `./launch_website.sh` and open the "Network" address it prints on the participant's computer.
-- [ ] Create two demo members, `demo_alex` and `demo_sam`, each with a short bio. Log in as `demo_sam`, follow `demo_alex`, and send `demo_alex` one public message and one whisper, so Task 8 has something to erase. Log out.
+- [ ] Create two demo members, `demo_alex` and `demo_sam`, each with a short bio.
+- [ ] On the facilitator's own laptop, open a **private/incognito window** and log in as `demo_sam`. Keep it ready, but off the participant's screen.
 - [ ] Start the recording (QuickTime or Zoom screen recording, with the participant's voice on). Record the screen and audio.
 - [ ] Have a .jpg or .png picture ready on the participant's desktop.
 
@@ -29,6 +30,8 @@ Wait for a verbal "yes" on the recording before you start. Time limit: about 20 
 | 7 | "Find out who follows you and who you follow." | Opens Friends and reads the lists | Did the headings make sense? |
 | 8 | "Find the message `demo_sam` sent you and delete it." | Message erased after confirming | Did the Erase confirmation feel clear? |
 | 9 | "You are finished for the day. Log out." | Logged out, sees confirmation | |
+
+**Facilitator action after Task 3** (so Tasks 7 and 8 have real data): in the private window, as `demo_sam`, open **Members**, follow the participant's new username, then open their page and send them one public message and one whisper. Do this quietly while they continue, and do not mention it.
 
 If a participant is stuck for more than 2 minutes, say "What would you try next?". If they are still stuck, record "Fail" and move on.
 
